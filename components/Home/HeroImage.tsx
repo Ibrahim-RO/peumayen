@@ -5,6 +5,7 @@ import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const slides = [
     {
@@ -77,79 +78,116 @@ export default function HeroCarousel() {
     return (
         <section className="relative h-dvh w-full flex items-center justify-center text-white overflow-hidden">
 
-            {/* Background Slides */}
-            {slides.map((slide, index) => (
-                <Image
-                    key={index}
-                    src={slide.image}
-                    alt={slide.title}
-                    fill
-                    priority={index === 0}
-                    className={`object-cover transition-opacity duration-1000 ${index === current ? "opacity-100" : "opacity-0"
-                        }`}
-                />
-            ))}
+            {/* Background animado */}
+            <AnimatePresence mode="wait">
+                <motion.div
+                    key={current}
+                    initial={{ opacity: 0, scale: 1.05 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 1.2 }}
+                    className="absolute inset-0"
+                >
+                    <Image
+                        src={slides[current].image}
+                        alt={slides[current].title}
+                        fill
+                        priority
+                        className="object-cover"
+                    />
+                </motion.div>
+            </AnimatePresence>
 
             {/* Overlay */}
-            <div className="absolute inset-0 bg-black/30" />
-            <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/40 to-black/70" />
+            <div className="absolute inset-0 bg-black/40" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/70" />
 
-            {/* Flecha Izquierda */}
-            <button
+            {/* Flechas */}
+            <motion.button
+                whileHover={{ scale: 1.15 }}
+                whileTap={{ scale: 0.9 }}
                 onClick={prevSlide}
-                className="absolute left-6 md:left-10 z-20 p-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20 hover:bg-amber-500 hover:text-black transition-all duration-300"
+                className="absolute left-6 md:left-10 z-20 p-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20 hover:bg-amber-500 hover:text-black transition-all"
             >
                 <ChevronLeft size={28} />
-            </button>
+            </motion.button>
 
-            {/* Flecha Derecha */}
-            <button
+            <motion.button
+                whileHover={{ scale: 1.15 }}
+                whileTap={{ scale: 0.9 }}
                 onClick={nextSlide}
-                className="absolute right-6 md:right-10 z-20 p-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20 hover:bg-amber-500 hover:text-black transition-all duration-300"
+                className="absolute right-6 md:right-10 z-20 p-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20 hover:bg-amber-500 hover:text-black transition-all"
             >
                 <ChevronRight size={28} />
-            </button>
+            </motion.button>
 
-            {/* Content */}
+            {/* Contenido */}
             <div className="relative z-10 text-center px-6 max-w-4xl space-y-8">
 
-                <p className="uppercase tracking-[0.3em] text-amber-400 text-sm">
+                <motion.p
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3 }}
+                    className="uppercase tracking-[0.3em] text-amber-400 text-sm"
+                >
                     Restaurante Peumayén
-                </p>
+                </motion.p>
 
-                <h1
-                    key={slides[current].title}
-                    className="text-2xl md:text-4xl font-bold leading-tight animate-fadeIn"
-                >
-                    {slides[current].title}
-                </h1>
+                <AnimatePresence mode="wait">
+                    <motion.h1
+                        key={slides[current].title}
+                        initial={{ opacity: 0, y: 40, filter: "blur(8px)" }}
+                        animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 0.8 }}
+                        className="text-2xl md:text-4xl font-bold leading-tight"
+                    >
+                        {slides[current].title}
+                    </motion.h1>
+                </AnimatePresence>
 
-                <p
-                    key={slides[current].description}
-                    className="text-gray-300 md:text-base max-w-xl mx-auto animate-fadeIn"
-                >
-                    {slides[current].description}
-                </p>
+                <AnimatePresence mode="wait">
+                    <motion.p
+                        key={slides[current].description}
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.8 }}
+                        className="text-gray-300 md:text-base max-w-xl mx-auto"
+                    >
+                        {slides[current].description}
+                    </motion.p>
+                </AnimatePresence>
 
-                <Button
-                    size="lg"
-                    onClick={() => router.push("/menu")}
-                    className="bg-amber-500 hover:bg-amber-600 text-black font-semibold rounded-xl px-8 py-6 text-lg shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer"
+                <motion.div
+                    whileHover={{ scale: 1.08 }}
+                    whileTap={{ scale: 0.95 }}
                 >
-                    <ArrowRight className="ml-2 h-5 w-5" />
-                    Ver Menú                    
-                </Button>
+                    <Button
+                        size="lg"
+                        onClick={() => router.push("/menu")}
+                        className="bg-amber-500 hover:bg-amber-600 text-black font-semibold rounded-xl px-8 py-6 text-lg shadow-2xl shadow-amber-500/30"
+                    >
+                        Ver Menú
+                        <ArrowRight className="ml-2 h-5 w-5" />
+                    </Button>
+                </motion.div>
             </div>
 
             {/* Indicators */}
             <div className="absolute bottom-8 flex gap-3">
                 {slides.map((_, index) => (
-                    <div
+                    <motion.div
                         key={index}
-                        className={`h-2 rounded-full transition-all duration-300 ${index === current
-                                ? "w-8 bg-amber-400"
-                                : "w-2 bg-white/50"
-                            }`}
+                        animate={{
+                            width: index === current ? 32 : 8,
+                            backgroundColor:
+                                index === current
+                                    ? "#fbbf24"
+                                    : "rgba(255,255,255,0.5)",
+                        }}
+                        transition={{ duration: 0.4 }}
+                        className="h-2 rounded-full"
                     />
                 ))}
             </div>
