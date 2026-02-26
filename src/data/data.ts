@@ -1,4 +1,6 @@
-export const menu = {
+import { Menu } from "../types";
+
+export const menu: Menu = {
     comida: {
         name: "Comidas",
         icon: "fa-solid fa-utensils",

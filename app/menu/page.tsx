@@ -4,6 +4,7 @@ import { menu } from "@/src/data/data"
 import { useState, useEffect, useMemo } from "react"
 import "photoswipe/style.css"
 import { GlassWater, Salad, Search, X } from "lucide-react"
+import { Menu } from "@/src/types"
 
 // Tipo para un tab aplanado
 type FlatTab = {
@@ -19,7 +20,7 @@ type SearchResult = {
 }
 
 // Construye la lista plana de tabs para una sección
-function buildTabs(section: string): FlatTab[] {
+function buildTabs(section: keyof Menu): FlatTab[] {
   const tabs: FlatTab[] = []
   for (const cat of menu[section].category) {
     tabs.push({ label: cat.name, parentName: cat.name })
@@ -28,7 +29,7 @@ function buildTabs(section: string): FlatTab[] {
 }
 
 // Obtiene los bloques a renderizar para un tab seleccionado
-function getBlocks(section: string, activeTab: FlatTab) {
+function getBlocks(section: keyof Menu, activeTab: FlatTab) {
   const cat = menu[section].category.find((c) => c.name === activeTab.parentName)
   if (!cat) return []
 
@@ -134,7 +135,7 @@ function ProductCard({ item, index }: { item: any; index: number }) {
 }
 
 export default function MenuPage() {
-  const [section, setSection] = useState<string>("comida")
+  const [section, setSection] = useState<keyof Menu>("comida")
   const [activeTab, setActiveTab] = useState<FlatTab>(() => buildTabs("comida")[0])
   const [searchQuery, setSearchQuery] = useState("")
 

@@ -100,7 +100,7 @@ export default function HeroCarousel() {
 
             {/* Overlay */}
             <div className="absolute inset-0 bg-black/40" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/70" />
+            <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/40 to-black/70" />
 
             {/* Flechas */}
             <motion.button
