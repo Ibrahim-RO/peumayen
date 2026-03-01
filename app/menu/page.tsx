@@ -176,58 +176,65 @@ export default function MenuPage() {
 
       {/* Sección principal */}
       <div className="bg-[#2b1408] text-white px-4 sm:px-10 py-4 text-lg font-medium">
-        <div className="w-11/12 mx-auto flex items-center gap-6 sm:gap-10">
-          <button
-            onClick={() => {
-              setSection("comida")
-              setActiveTab(buildTabs("comida")[0])
-              setSearchQuery("")
-            }}
-            className={`pb-2 border-b-2 transition cursor-pointer shrink-0 ${section === "comida"
-                ? "border-yellow-500 text-yellow-400"
-                : "border-transparent text-gray-300"
-              }`}
-          >
-            <Salad className="w-5 h-5 mr-2 inline" /> Comida
-          </button>
+        <div className="w-11/12 mx-auto flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-10">
 
-          <button
-            onClick={() => {
-              setSection("bebidas")
-              setActiveTab(buildTabs("bebidas")[0])
-              setSearchQuery("")
-            }}
-            className={`pb-2 border-b-2 transition cursor-pointer shrink-0 ${section === "bebidas"
-                ? "border-yellow-500 text-yellow-400"
-                : "border-transparent text-gray-300"
-              }`}
-          >
-            <GlassWater className="w-5 h-5 mr-2 inline" /> Bebidas
-          </button>
+          {/* Tabs */}
+          <div className="flex items-center gap-6 shrink-0">
+            <button
+              onClick={() => {
+                setSection("comida")
+                setActiveTab(buildTabs("comida")[0])
+                setSearchQuery("")
+              }}
+              className={`pb-2 border-b-2 transition cursor-pointer ${section === "comida"
+                  ? "border-yellow-500 text-yellow-400"
+                  : "border-transparent text-gray-300"
+                }`}
+            >
+              <Salad className="w-5 h-5 mr-2 inline" /> Comida
+            </button>
+
+            <button
+              onClick={() => {
+                setSection("bebidas")
+                setActiveTab(buildTabs("bebidas")[0])
+                setSearchQuery("")
+              }}
+              className={`pb-2 border-b-2 transition cursor-pointer ${section === "bebidas"
+                  ? "border-yellow-500 text-yellow-400"
+                  : "border-transparent text-gray-300"
+                }`}
+            >
+              <GlassWater className="w-5 h-5 mr-2 inline" /> Bebidas
+            </button>
+          </div>
 
           {/* Buscador */}
-          <div className="ml-auto flex items-center">
-            <div className="relative flex items-center">
-              <Search className="absolute left-3 w-4 h-4 text-gray-400 pointer-events-none" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Buscar..."
-                className="pl-9 pr-8 py-1.5 text-sm rounded-full bg-white/10 border border-white/20 
-                  text-white placeholder-gray-400 focus:outline-none focus:bg-white/20 
-                  focus:border-yellow-500/50 transition w-32 sm:w-40 md:w-56"
-              />
-              {searchQuery && (
-                <button
-                  onClick={() => setSearchQuery("")}
-                  className="absolute right-2.5 text-gray-400 hover:text-white transition"
-                >
-                  <X className="w-3.5 h-3.5" />
-                </button>
-              )}
-            </div>
+          <div className="relative w-full sm:w-auto sm:ml-auto">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Buscar..."
+              className="w-full sm:w-56 md:w-72 pl-9 pr-8 py-2 text-sm rounded-full 
+      bg-white/10 border border-white/20 
+      text-white placeholder-gray-400 
+      focus:outline-none focus:bg-white/20 
+      focus:border-yellow-500/50 transition"
+            />
+
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery("")}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            )}
           </div>
+
         </div>
       </div>
 
@@ -300,24 +307,29 @@ export default function MenuPage() {
             </h2>
 
             <div id="menu-gallery">
-              {blocks.map((block, blockIndex) => (
-                <div key={blockIndex} className="mb-12">
-                  {block.title && (
-                    <h3 className="text-xl font-semibold text-gray-700 mb-6 pb-2 border-b border-gray-300">
-                      {block.title}
-                    </h3>
-                  )}
-                  <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-10">
-                    {block.products.length > 0 ? (
-                      block.products.map((item, index) => (
-                        <ProductCard key={item.name} item={item} index={index} />
-                      ))
-                    ) : (
-                      <p className="text-gray-500">No hay productos en esta categoría.</p>
-                    )}
-                  </div>
-                </div>
-              ))}
+              {blocks.length > 0 ? (
+                <>
+                  {blocks.map((block, blockIndex) => (
+                    <div key={blockIndex} className="mb-12">
+                      {block.title && (
+                        <h3 className="text-xl font-semibold text-gray-700 mb-6 pb-2 border-b border-gray-300">
+                          {block.title}
+                        </h3>
+                      )}
+                      <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-10">
+                        {block.products.length > 0 ? (
+                          block.products.map((item, index) => (
+                            <ProductCard key={item.name} item={item} index={index} />
+                          ))
+                        ) : (
+                          <p className="text-gray-500">No hay productos en esta categoría.</p>
+                        )}
+                      </div>
+                    </div>
+                  ))}</>
+              ) : (
+                <p className="text-gray-500">No hay productos disponibles.</p>
+              )}
             </div>
           </>
         )}

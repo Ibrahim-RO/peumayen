@@ -107,7 +107,7 @@ export default function HeroCarousel() {
                 whileHover={{ scale: 1.15 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={prevSlide}
-                className="absolute left-6 md:left-10 z-20 p-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20 hover:bg-amber-500 hover:text-black transition-all"
+                className="absolute left-3 md:left-10 z-20 p-3 rounded-full md:bg-white/10 md:backdrop-blur-md md:border md:border-white/20 hover:bg-amber-500 hover:text-black transition-all"
             >
                 <ChevronLeft size={28} />
             </motion.button>
@@ -116,7 +116,7 @@ export default function HeroCarousel() {
                 whileHover={{ scale: 1.15 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={nextSlide}
-                className="absolute right-6 md:right-10 z-20 p-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20 hover:bg-amber-500 hover:text-black transition-all"
+                className="absolute right-2 md:right-10 z-20 p-3 rounded-full md:bg-white/10 md:backdrop-blur-md md:border md:border-white/20 hover:bg-amber-500 hover:text-black transition-all"
             >
                 <ChevronRight size={28} />
             </motion.button>

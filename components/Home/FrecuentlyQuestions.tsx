@@ -11,9 +11,8 @@ import { motion } from "framer-motion";
 
 export default function FrecuentlyQuestions() {
     return (
-        <section className="py-20 px-4 relative overflow-hidden">
+        <section className="py-20 px-5 relative overflow-hidden">
             <div className="max-w-4xl mx-auto">
-
                 {/* Header */}
                 <motion.div
                     initial={{ opacity: 0, y: 40 }}
@@ -42,7 +41,7 @@ export default function FrecuentlyQuestions() {
                             initial={{ opacity: 0, y: 40 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             transition={{
-                                duration: 0.6,
+                                duration: 0.3,
                                 delay: index * 0.1,
                             }}
                             viewport={{ once: true }}
