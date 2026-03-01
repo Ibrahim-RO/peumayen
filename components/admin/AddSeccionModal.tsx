@@ -55,7 +55,7 @@ export default function AddSeccionModal() {
                         type="submit"
                         className="w-full cursor-pointer bg-amber-900"
                     >
-                        Guardar Platillo
+                        Guardar Sección
                     </Button>
                 </div>
 
