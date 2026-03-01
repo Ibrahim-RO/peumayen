@@ -33,7 +33,7 @@ export default function Login() {
         // }
     })
 
-    const handleForm = (formData) => {
+    const handleForm = (formData: any) => {
         mutate(formData)
     }
 
