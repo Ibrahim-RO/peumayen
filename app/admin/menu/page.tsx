@@ -14,6 +14,7 @@ import {
 import { Switch } from "@/components/ui/switch"
 import { Edit3, Trash2, ChevronLeft, ChevronRight } from "lucide-react";
 import AddMenuItemModal from "@/components/admin/AddMenuItemModal";
+import toast from "react-hot-toast";
 
 type MenuItem = {
     id: number;
@@ -88,8 +89,10 @@ export default function MenuAdmin() {
     const [sortKey, setSortKey] = useState<keyof MenuItem | null>(null);
     const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
 
+    const [menuItems, setMenuItems] = useState<MenuItem[]>(sampleData);
+
     const filtered = useMemo(() => {
-        let data = [...sampleData];
+        let data = [...menuItems];
 
         if (sortKey) {
             data.sort((a, b) => {
@@ -107,7 +110,7 @@ export default function MenuAdmin() {
         }
 
         return data;
-    }, [sortKey, sortDir]);
+    }, [menuItems, sortKey, sortDir]);
 
     const total = filtered.length;
     const pages = Math.max(1, Math.ceil(total / perPage));
@@ -120,6 +123,16 @@ export default function MenuAdmin() {
             setSortKey(key);
             setSortDir("asc");
         }
+    }
+
+    function toggleEstado(id: number, checked: boolean) {
+        setMenuItems((prev) =>
+            prev.map((item) =>
+                item.id === id
+                    ? { ...item, estado: checked ? "Disponible" : "Agotado" }
+                    : item
+            )
+        );
     }
 
     return (
@@ -145,7 +158,7 @@ export default function MenuAdmin() {
                                     <TableHead onClick={() => toggleSort("nombre")} className="cursor-pointer">Nombre</TableHead>
                                     <TableHead onClick={() => toggleSort("seccion")} className="cursor-pointer">Sección</TableHead>
                                     <TableHead onClick={() => toggleSort("precio")} className="cursor-pointer">Precio</TableHead>
-                                    <TableHead>Estado</TableHead>
+                                    <TableHead>Estatus</TableHead>
                                     <TableHead>Acciones</TableHead>
                                 </TableRow>
                             </TableHeader>
@@ -168,7 +181,14 @@ export default function MenuAdmin() {
                                         <TableCell>${item.precio}</TableCell>
 
                                         <TableCell>
-                                            <EstadoBadge estado={item.estado} />
+                                            <Switch
+                                                checked={item.estado === "Disponible"}
+                                                onCheckedChange={(checked) => {
+                                                    toggleEstado(item.id, checked)
+                                                    toast.success('Estado actualizado correctamente')
+                                                }}
+                                                className="data-[state=checked]:bg-green-500 data-[state=unchecked]:bg-red-400"
+                                            />
                                         </TableCell>
 
                                         <TableCell>
