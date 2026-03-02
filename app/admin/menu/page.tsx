@@ -144,7 +144,7 @@ export default function MenuAdmin() {
 
             <Card>
                 <CardHeader>
-                    <CardTitle>Administración del Menú</CardTitle>
+                    <CardTitle>Administración del Menú  </CardTitle>
                 </CardHeader>
 
                 <CardContent>
